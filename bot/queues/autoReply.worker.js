@@ -1,4 +1,3 @@
-const { autoReplyQueue } = require('./bullmq');
 const rules = require('../rules');
 const { getReplyFromAI } = require('../aiProxy');
 const { getOnlineAdmins } = require("../filterOnlineAdmins");
@@ -133,12 +132,12 @@ async function handleIncomingMessage(io, socketId, { sender, content }, onlineUs
         conversation.readBy = [sender];
         await conversation.save();
 
-        // 9. Đưa reply vào queue gửi message
-        await autoReplyQueue.add(
-            'sendReply',
-            { socketId, reply },
-            { attempts: 3, backoff: 2000 }
-        );
+        // // 9. Đưa reply vào queue gửi message
+        // await autoReplyQueue.add(
+        //     'sendReply',
+        //     { socketId, reply },
+        //     { attempts: 3, backoff: 2000 }
+        // );
 
         // 10. Gửi realtime cho user
         io.to(socketId).emit("receiveMessage", replyMessage);
